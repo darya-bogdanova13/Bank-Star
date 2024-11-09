@@ -23,9 +23,7 @@ public class RecommendationsService {
         List<Recommendations> recommendationsList = new ArrayList<>();
         for (RecommendationRuleSet recommendationsRuleSet : recommendationRuleSetList) {
             Optional<Object> recommendations = recommendationsRuleSet.getRecommendations(users_id);
-            if (recommendations.isPresent()) {
-                recommendationsList.add((Recommendations) recommendations.get());
-            }
+            recommendations.ifPresent(o -> recommendationsList.add((Recommendations) o));
         }
         return recommendationsList;
     }

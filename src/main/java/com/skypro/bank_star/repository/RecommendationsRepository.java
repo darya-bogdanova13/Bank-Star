@@ -14,7 +14,7 @@ public class RecommendationsRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public int getRandomTransactionAmount(UUID user){
+    public int getRandomTransactionAmount(UUID user) {
         Integer result = jdbcTemplate.queryForObject(
                 "SELECT amount FROM transactions t WHERE t.user_id = ? LIMIT 1",
                 Integer.class,
@@ -27,7 +27,7 @@ public class RecommendationsRepository {
                 "INNER JOIN PRODUCTS p ON t.PRODUCT_ID = p.ID " +
                 "WHERE t.USER_ID = ? AND p.TYPE = 'DEBIT'", Integer.class, user_id);
 
-        return result > 0 ? true : false;
+        return result > 0;
     }
 
 
@@ -36,7 +36,7 @@ public class RecommendationsRepository {
                 "INNER JOIN PRODUCTS p ON t.PRODUCT_ID = p.ID " +
                 "WHERE t.USER_ID = ? AND p.TYPE = 'INVEST'", Integer.class, user_id);
 
-        return result > 0 ? true : false;
+        return result > 0;
     }
 
     public boolean hasCreditProduct(UUID user_id) {
@@ -44,7 +44,7 @@ public class RecommendationsRepository {
                 "INNER JOIN PRODUCTS p ON t.PRODUCT_ID = p.ID " +
                 "WHERE t.USER_ID = ? AND p.TYPE = 'CREDIT'", Integer.class, user_id);
 
-        return result > 0 ? true : false;
+        return result > 0;
     }
 
     public Long getSavingAmount(UUID user_id) {
@@ -63,7 +63,7 @@ public class RecommendationsRepository {
                 Long.class, user_id);
 
         return result != null ? result : 0;
-   }
+    }
 
     public Long getDebitExpenses(UUID user_id) {
         Long result = jdbcTemplate.queryForObject("SELECT SUM (amount) FROM TRANSACTIONS t " +
