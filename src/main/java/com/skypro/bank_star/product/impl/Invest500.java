@@ -13,23 +13,25 @@ public class Invest500 implements RecommendationRuleSet {
 
     private final RecommendationsRepository recommendationsRepository;
 
-    public Invest500(RecommendationsRepository recommendationsRepository) {
-        this.recommendationsRepository = recommendationsRepository;
-    }
+    public final Recommendations recommendations;
 
+    public Invest500(RecommendationsRepository recommendationsRepository, Recommendations recommendations) {
+        this.recommendationsRepository = recommendationsRepository;
+        this.recommendations = new Recommendations("Invest 500",
+                UUID.fromString("147f6a0f-3b91-413b-ab99-87f081d60d5a"),
+                "Откройте свой путь к успеху с индивидуальным инвестиционным счетом (ИИС) от нашего банка! " +
+                        "Воспользуйтесь налоговыми льготами и начните инвестировать с умом. Пополните счет " +
+                        "до конца года и получите выгоду в виде вычета на взнос в следующем налоговом периоде. " +
+                        "Не упустите возможность разнообразить свой портфель, снизить риски и следить за " +
+                        "актуальными рыночными тенденциями. Откройте ИИС сегодня и станьте ближе к финансовой " +
+                        "независимости!");
+    }
     @Override
     public Optional<Object> getRecommendations(UUID users_id) {
         if (recommendationsRepository.hasDebitProduct(users_id) &&
                 !recommendationsRepository.hasInvestProduct(users_id) &&
                 recommendationsRepository.getSavingAmount(users_id) > 1000) {
-            return Optional.of(new Recommendations("Invest 500",
-                    UUID.fromString("147f6a0f-3b91-413b-ab99-87f081d60d5a"),
-                    "Откройте свой путь к успеху с индивидуальным инвестиционным счетом (ИИС) от нашего банка! " +
-                            "Воспользуйтесь налоговыми льготами и начните инвестировать с умом. Пополните счет " +
-                            "до конца года и получите выгоду в виде вычета на взнос в следующем налоговом периоде. " +
-                            "Не упустите возможность разнообразить свой портфель, снизить риски и следить за " +
-                            "актуальными рыночными тенденциями. Откройте ИИС сегодня и станьте ближе к финансовой " +
-                            "независимости!"));
+            return Optional.of(recommendations);
         }
         return Optional.empty();
     }

@@ -18,4 +18,5 @@ public class RecommendationsDto {
     public String getUserId() {
         return userId;
     }
+
 }
