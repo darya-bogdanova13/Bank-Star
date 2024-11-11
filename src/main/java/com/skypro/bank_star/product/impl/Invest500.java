@@ -15,7 +15,7 @@ public class Invest500 implements RecommendationRuleSet {
 
     public final Recommendations recommendations;
 
-    public Invest500(RecommendationsRepository recommendationsRepository, Recommendations recommendations) {
+    public Invest500(RecommendationsRepository recommendationsRepository) {
         this.recommendationsRepository = recommendationsRepository;
         this.recommendations = new Recommendations("Invest 500",
                 UUID.fromString("147f6a0f-3b91-413b-ab99-87f081d60d5a"),
