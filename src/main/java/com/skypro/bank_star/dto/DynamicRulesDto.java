@@ -1,22 +1,19 @@
-package com.skypro.bank_star.model;
-
-import org.springframework.data.jdbc.repository.query.Query;
+package com.skypro.bank_star.dto;
 
 import java.util.List;
-import java.util.UUID;
 
-public class DynamicRules {
+public class DynamicRulesDto {
     private Long id;
     private Long userId;
-    private List<Query> queries;
+    private List<String> queries; // Используем строки или другой тип для запросов
 
-    public DynamicRules(Long id, Long userId, List<Query> queries) {
+    public DynamicRulesDto(Long id, Long userId, List<String> queries) {
         this.id = id;
         this.userId = userId;
         this.queries = queries;
     }
 
-    public DynamicRules() {
+    public DynamicRulesDto() {
     }
 
     public Long getId() {
@@ -26,18 +23,20 @@ public class DynamicRules {
     public void setId(Long id) {
         this.id = id;
     }
+
     public Long getUserId() {
         return userId;
     }
+
     public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public List<Query> getQueries() {
+    public List<String> getQueries() {
         return queries;
     }
 
-    public void setQueries(List<Query> queries) {
+    public void setQueries(List<String> queries) {
         this.queries = queries;
     }
 }

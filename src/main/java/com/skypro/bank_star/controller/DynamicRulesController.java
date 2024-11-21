@@ -12,18 +12,23 @@ import java.util.List;
 @RestController
 @RequestMapping("/rules")
 public class DynamicRulesController {
+    private final DynamicRulesService dynamicRulesService;
 
     @Autowired
-    private DynamicRulesService dynamicRulesService;
-
     public DynamicRulesController(DynamicRulesService dynamicRulesService) {
         this.dynamicRulesService = dynamicRulesService;
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<DynamicRules>> getRulesByUserId(@PathVariable Long userId) {
+        List<DynamicRules> rules = dynamicRulesService.getRulesByUserId(userId);
+        return ResponseEntity.ok(rules);
+    }
+
     @PostMapping
-    public ResponseEntity<DynamicRules> addRule(@RequestBody DynamicRules rule) {
-        DynamicRules createdRules = dynamicRulesService.addRule(rule);
-        return ResponseEntity.ok(createdRules);
+    public ResponseEntity<Void> addRule(@RequestBody DynamicRules rule) {
+        dynamicRulesService.addRule(rule);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
@@ -39,4 +44,3 @@ public class DynamicRulesController {
     }
 
 }
-

@@ -1,37 +1,46 @@
 package com.skypro.bank_star.repository;
 
+import com.skypro.bank_star.model.DynamicRules;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
+import java.util.List;
 
 @Repository
 public class DynamicRulesRepository {
-
     private final JdbcTemplate jdbcTemplate;
 
     public DynamicRulesRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public double getTotalDeposits(String productType, UUID userId) {
-        String sql = "SELECT SUM(amount) FROM transactions WHERE product_type = ? AND transaction_type = 'DEPOSIT' AND user_id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{productType, userId}, Double.class);
+    public void save(DynamicRules rule) {
+        String sql = "INSERT INTO dynamic_rules (id, user_id) VALUES (?, ?)";
+        jdbcTemplate.update(sql, rule.getId(), rule.getUserId());
     }
 
-    public double getTotalWithdrawals(String productType, UUID userId) {
-        String sql = "SELECT SUM(amount) FROM transactions WHERE product_type = ? AND transaction_type = 'WITHDRAWAL' AND user_id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{productType, userId}, Double.class);
+    public List<DynamicRules> findByUserId(Long userId) {
+        String sql = "SELECT * FROM dynamic_rules WHERE user_id = ?";
+        return jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) -> {
+            DynamicRules rule = new DynamicRules();
+            rule.setId(rs.getLong("id"));
+            rule.setUserId(rs.getLong("user_id"));
+            return rule;
+        });
     }
 
-    public double getTotalTransactionSum(String productType, String transactionType, UUID userId) {
-        String sql = "SELECT SUM(amount) FROM transactions WHERE product_type = ? AND transaction_type = ? AND user_id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{productType, transactionType, userId}, Double.class);
+    public void deleteById(Long id) {
+        String sql = "DELETE FROM dynamic_rules WHERE id = ?";
+        jdbcTemplate.update(sql, id);
     }
 
-    public boolean hasTransactionsOfType(String productType, UUID userId) {
-        String sql = "SELECT COUNT(*) FROM transactions WHERE product_type = ? AND user_id = ?";
-        Integer count = jdbcTemplate.queryForObject(sql, new Object[]{productType, userId}, Integer.class);
-        return count != null && count > 0;
+    public List<DynamicRules> findAll() {
+        String sql = "SELECT * FROM dynamic_rules";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            DynamicRules rule = new DynamicRules();
+            rule.setId(rs.getLong("id"));
+            rule.setUserId(rs.getLong("user_id"));
+            return null;
+        });
     }
 }

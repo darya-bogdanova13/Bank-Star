@@ -34,5 +34,6 @@ public class RecommendationsController {
     @GetMapping("{users_id}")
     public RecommendationsDto getListOfRecommendationsForUser(@PathVariable("users_id") UUID usersId) {
         List<Recommendations> recommendations = recommendationsService.getRecommendations(usersId);
-        return new RecommendationsDto(usersId.toString(), recommendations);    }
+        return new RecommendationsDto(usersId.toString(), recommendations);
+    }
 }

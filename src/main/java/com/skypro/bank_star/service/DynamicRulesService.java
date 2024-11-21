@@ -1,6 +1,8 @@
 package com.skypro.bank_star.service;
 
 import com.skypro.bank_star.model.DynamicRules;
+import com.skypro.bank_star.repository.DynamicRulesRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -13,25 +15,23 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 public class DynamicRulesService {
 
-    private final List<DynamicRules> rules = new ArrayList<>();
-    private final AtomicLong idCounter = new AtomicLong();
+    private final DynamicRulesRepository dynamicRulesRepository;
 
-    public DynamicRules addRule(DynamicRules rule) {
-        long id = idCounter.incrementAndGet();
-        rule.setId(id);
-        rules.add(rule);
-        return rule;
+    public DynamicRulesService(DynamicRulesRepository dynamicRulesRepository) {
+        this.dynamicRulesRepository = dynamicRulesRepository;
     }
 
-    public void deleteRules(Long id) {
-        rules.removeIf(rule -> rule.getId().equals(id));
+    public List<DynamicRules> getRulesByUserId(Long userId) {
+        return dynamicRulesRepository.findByUserId(userId);
     }
-
+    public void addRule(DynamicRules rule) {
+        dynamicRulesRepository.save(rule);
+    }
+    public void deleteRules(Long id){
+        dynamicRulesRepository.deleteById(id);
+    }
     public List<DynamicRules> getAllRules() {
-        return new ArrayList<>(rules);
+        return dynamicRulesRepository.findAll();
     }
 
-    public Optional<DynamicRules> getRuleById(Long id) {
-        return rules.stream().filter(rule -> rule.getId().equals(id)).findFirst();
-    }
 }
