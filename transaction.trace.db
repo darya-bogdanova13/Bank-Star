@@ -1,0 +1,24 @@
+2024-11-10 01:51:10.554606+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TRANSACTIONS" not found (this database is empty); SQL statement:
+SELECT COUNT (DISTINCT t.USER_ID) FROM TRANSACTIONS t INNER JOIN PRODUCTS p ON t.PRODUCT_ID = p.ID WHERE t.USER_ID = ? AND p.TYPE = 'DEBIT' [42104-224]
+2024-11-10 01:52:20.671811+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TRANSACTIONS" not found (this database is empty); SQL statement:
+SELECT COUNT (DISTINCT t.USER_ID) FROM TRANSACTIONS t INNER JOIN PRODUCTS p ON t.PRODUCT_ID = p.ID WHERE t.USER_ID = ? AND p.TYPE = 'DEBIT' [42104-224]
+2024-11-10 01:53:09.408066+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TRANSACTIONS" not found (this database is empty); SQL statement:
+SELECT COUNT (DISTINCT t.USER_ID) FROM TRANSACTIONS t INNER JOIN PRODUCTS p ON t.PRODUCT_ID = p.ID WHERE t.USER_ID = ? AND p.TYPE = 'DEBIT' [42104-224]
+2024-11-10 01:53:48.264992+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TRANSACTIONS" not found (this database is empty); SQL statement:
+SELECT COUNT (DISTINCT t.USER_ID) FROM TRANSACTIONS t INNER JOIN PRODUCTS p ON t.PRODUCT_ID = p.ID WHERE t.USER_ID = ? AND p.TYPE = 'DEBIT' [42104-224]
+2024-11-10 01:54:12.519291+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TRANSACTIONS" not found (this database is empty); SQL statement:
+SELECT COUNT (DISTINCT t.USER_ID) FROM TRANSACTIONS t INNER JOIN PRODUCTS p ON t.PRODUCT_ID = p.ID WHERE t.USER_ID = ? AND p.TYPE = 'DEBIT' [42104-224]
+2024-11-10 01:56:11.920557+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TRANSACTIONS" not found (this database is empty); SQL statement:
+SELECT COUNT (DISTINCT t.USER_ID) FROM TRANSACTIONS t INNER JOIN PRODUCTS p ON t.PRODUCT_ID = p.ID WHERE t.USER_ID = ? AND p.TYPE = 'DEBIT' [42104-224]
+2024-11-10 01:56:21.803662+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TRANSACTIONS" not found (this database is empty); SQL statement:
+SELECT COUNT (DISTINCT t.USER_ID) FROM TRANSACTIONS t INNER JOIN PRODUCTS p ON t.PRODUCT_ID = p.ID WHERE t.USER_ID = ? AND p.TYPE = 'DEBIT' [42104-224]
+2024-11-10 02:04:24.413598+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TRANSACTIONS" not found (this database is empty); SQL statement:
+SELECT COUNT (DISTINCT t.USER_ID) FROM TRANSACTIONS t INNER JOIN PRODUCTS p ON t.PRODUCT_ID = p.ID WHERE t.USER_ID = ? AND p.TYPE = 'DEBIT' [42104-224]
