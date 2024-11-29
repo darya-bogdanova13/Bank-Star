@@ -1,12 +1,14 @@
 package com.skypro.bank_star.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.skypro.bank_star.model.DynamicRules;
 import com.skypro.bank_star.service.DynamicRulesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+
 import java.util.List;
 
 @RestController
@@ -26,9 +28,9 @@ public class DynamicRulesController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> addRule(@RequestBody DynamicRules rule) {
+    public ResponseEntity<Void> addRule(@RequestBody DynamicRules rule) throws JsonProcessingException {
         dynamicRulesService.addRule(rule);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/{id}")
@@ -42,5 +44,4 @@ public class DynamicRulesController {
         List<DynamicRules> rules = dynamicRulesService.getAllRules();
         return ResponseEntity.ok(rules);
     }
-
 }
