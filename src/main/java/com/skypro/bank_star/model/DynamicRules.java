@@ -1,19 +1,23 @@
 package com.skypro.bank_star.model;
 
-import org.springframework.data.jdbc.repository.query.Query;
-
 import java.util.List;
-import java.util.UUID;
 
 public class DynamicRules {
+
     private Long id;
     private Long userId;
-    private List<Query> queries;
+    private List<RuleCondition> queries;
+    private String productName;
+    private String productId;
+    private String productText;
 
-    public DynamicRules(Long id, Long userId, List<Query> queries) {
+    public DynamicRules(Long id, Long userId, List<RuleCondition> queries, String productName, String productId, String productText) {
         this.id = id;
         this.userId = userId;
         this.queries = queries;
+        this.productName = productName;
+        this.productId = productId;
+        this.productText = productText;
     }
 
     public DynamicRules() {
@@ -26,18 +30,42 @@ public class DynamicRules {
     public void setId(Long id) {
         this.id = id;
     }
+
     public Long getUserId() {
         return userId;
     }
+
     public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public List<Query> getQueries() {
+    public List<RuleCondition> getQueries() {
         return queries;
     }
 
-    public void setQueries(List<Query> queries) {
+    public void setQueries(List<RuleCondition> queries) {
         this.queries = queries;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getProductText() {
+        return productText;
+    }
+
+    public void setProductText(String productText) {
+        this.productText = productText;
     }
 }

@@ -6,6 +6,7 @@ import com.skypro.bank_star.repository.RecommendationsRepository;
 import com.skypro.bank_star.service.RecommendationsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class RecommendationsController {
     private final RecommendationsRepository recommendationsRepository;
     private final RecommendationsService recommendationsService;
 
+    @Autowired
     public RecommendationsController(RecommendationsRepository recommendationsRepository, RecommendationsService recommendationsService) {
         this.recommendationsRepository = recommendationsRepository;
         this.recommendationsService = recommendationsService;
