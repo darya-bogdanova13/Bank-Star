@@ -6,6 +6,7 @@ import com.skypro.bank_star.repository.RecommendationsRepository;
 import com.skypro.bank_star.service.RecommendationsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,14 +27,18 @@ public class RecommendationsController {
     }
 
     @GetMapping("/transaction")
-    public Integer getTransactionAmountForUser(@RequestParam UUID userId) {
+    public ResponseEntity<Integer> getTransactionAmountForUser(@RequestParam UUID userId) {
         logger.info("Получение суммы транзакции для пользователя: {}", userId);
-        return recommendationsRepository.getRandomTransactionAmount(userId);
+        Integer transactionAmount = recommendationsRepository.getRandomTransactionAmount(userId);
+        return ResponseEntity.ok(transactionAmount);
     }
 
-    @GetMapping("{users_id}")
-    public RecommendationsDto getListOfRecommendationsForUser(@PathVariable("users_id") UUID usersId) {
+    @PostMapping("/users/{usersId}")
+    public ResponseEntity<RecommendationsDto>  getListOfRecommendationsForUser(@PathVariable("users_id") UUID usersId) {
+        logger.info("Получение рекомендаций для пользователя: {}", usersId);
         List<Recommendations> recommendations = recommendationsService.getRecommendations(usersId);
-        return new RecommendationsDto(usersId.toString(), recommendations);
+        RecommendationsDto recommendationsDto = new RecommendationsDto(usersId.toString(), recommendations);
+        return ResponseEntity.ok(recommendationsDto);
     }
+
 }
