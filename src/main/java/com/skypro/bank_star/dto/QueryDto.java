@@ -1,19 +1,19 @@
-package com.skypro.bank_star.model;
+package com.skypro.bank_star.dto;
 
 import java.util.List;
 
-public class Query {
+public class QueryDto {
     private String query;
     private List<String> arguments;
     private boolean negate;
 
-    public Query(String query, List<String> arguments, boolean negate) {
+    public QueryDto(String query, List<String> arguments, boolean negate) {
         this.query = query;
         this.arguments = arguments;
         this.negate = negate;
     }
 
-    public Query() {
+    public QueryDto() {
     }
 
     public String getQuery() {
