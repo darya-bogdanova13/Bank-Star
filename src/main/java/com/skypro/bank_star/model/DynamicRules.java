@@ -1,43 +1,81 @@
 package com.skypro.bank_star.model;
 
-import org.springframework.data.jdbc.repository.query.Query;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.skypro.bank_star.request.RulesQuery;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 
 import java.util.List;
 import java.util.UUID;
 
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "rules")
 public class DynamicRules {
-    private Long id;
-    private Long userId;
-    private List<Query> queries;
 
-    public DynamicRules(Long id, Long userId, List<Query> queries) {
-        this.id = id;
-        this.userId = userId;
-        this.queries = queries;
-    }
+    @Id
+    @JsonIgnore
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "query", nullable = false)
+    private RulesQuery query;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "rules_arguments", joinColumns = @JoinColumn(name = "rules_id"))
+    @Column(name = "argument", nullable = false)
+    @OrderColumn(name = "argument_index")
+    private List<String> arguments;
 
-    public DynamicRules() {
-    }
+    @Column(name = "argument", nullable = false)
+    private boolean negate;
 
-    public Long getId() {
+    @ManyToOne
+    @Column(name = "recommendation_id")
+    private Recommendations recommendations;
+
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
-    public Long getUserId() {
-        return userId;
-    }
-    public void setUserId(Long userId) {
-        this.userId = userId;
+
+    public RulesQuery getQuery() {
+        return query;
     }
 
-    public List<Query> getQueries() {
-        return queries;
+    public void setQuery(RulesQuery query) {
+        this.query = query;
     }
 
-    public void setQueries(List<Query> queries) {
-        this.queries = queries;
+    public List<String> getArguments() {
+        return arguments;
     }
+
+    public void setArguments(List<String> arguments) {
+        this.arguments = arguments;
+    }
+
+    public boolean isNegate() {
+        return negate;
+    }
+
+    public void setNegate(boolean negate) {
+        this.negate = negate;
+    }
+
+    public Recommendations getRecommendations() {
+        return recommendations;
+    }
+
+    public void setRecommendations(Recommendations recommendations) {
+        this.recommendations = recommendations;
+    }
+
 }

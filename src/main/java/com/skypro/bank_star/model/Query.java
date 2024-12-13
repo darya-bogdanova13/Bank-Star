@@ -1,39 +1,45 @@
 package com.skypro.bank_star.model;
 
-import java.util.List;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 
+import java.util.UUID;
+
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "stats")
 public class Query {
-    private String query;
-    private List<String> arguments;
-    private boolean negate;
 
-    public Query(String query, List<String> arguments, boolean negate) {
-        this.query = query;
-        this.arguments = arguments;
-        this.negate = negate;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id", unique = true, nullable = false)
+    private UUID id;
+
+    @Column(name = "count", columnDefinition = "INTEGER", nullable = false)
+    private Integer count;
+
+    @OneToOne
+    @JoinColumn(name = "recommendations_id", nullable = false)
+    private Recommendations recommendations;
+
+    public Query(Integer count) {
+        this.count = count;
     }
 
-    public String getQuery() {
-        return query;
+    public Integer getCount() {
+        return count;
     }
 
-    public void setQuery(String query) {
-        this.query = query;
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
-    public List<String> getArguments() {
-        return arguments;
-    }
-
-    public void setArguments(List<String> arguments) {
-        this.arguments = arguments;
-    }
-
-    public boolean isNegate() {
-        return negate;
-    }
-
-    public void setNegate(boolean negate) {
-        this.negate = negate;
+    public void setRecommendations(Recommendations recommendations) {
+        this.recommendations = recommendations;
     }
 }

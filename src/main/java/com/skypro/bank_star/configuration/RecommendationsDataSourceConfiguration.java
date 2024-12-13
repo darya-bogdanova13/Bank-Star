@@ -13,10 +13,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import javax.sql.DataSource;
 
 @Configuration
-public class RecommendationsDataSourceConfiguration {
+public class RecommendationsDataSourceConfiguration  {
     @Bean(name = "recommendationsDataSource")
     public DataSource recommendationsDataSource(@Value("${application.recommendations-db.url}")
-                                                    String recommendationsUrl) {
+                                                String recommendationsUrl) {
         var dataSource = new HikariDataSource();
         dataSource.setJdbcUrl(recommendationsUrl);
         dataSource.setDriverClassName("org.h2.Driver");
@@ -30,9 +30,12 @@ public class RecommendationsDataSourceConfiguration {
     ) {
         return new JdbcTemplate(dataSource);
     }
+
     @Primary
     @Bean(name = "defaultDataSource")
+    @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource defaultDataSource(DataSourceProperties properties) {
         return properties.initializeDataSourceBuilder().build();
     }
+
 }

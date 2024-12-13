@@ -1,53 +1,90 @@
 package com.skypro.bank_star.model;
 
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+
+import java.util.List;
 import java.util.UUID;
 
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "recommendations")
 public class Recommendations {
-    private String name;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id", unique = true, nullable = false)
     private UUID id;
-    private String text;
 
-    public Recommendations() {
-    }
+    @Column(name = "product_name", columnDefinition = "TEXT", nullable = false)
+    private String productName;
 
-    public Recommendations(String name, UUID id, String text) {
-        this.name = name;
-        this.id = id;
-        this.text = text;
-    }
+    @Column(name = "product_id", nullable = false)
+    private UUID productId;
 
-    public String getName() {
-        return name;
-    }
+    @Column(name = "product_text", columnDefinition = "TEXT", nullable = false)
+    private String productText;
+
+    @JsonIgnoreProperties(value = "recommendations", allowSetters = true)
+    @OneToMany(mappedBy = "recommendations", cascade = CascadeType.ALL)
+    private List<DynamicRules> rule;
+
+    @JsonIgnoreProperties (value = "recommendations", allowSetters = true)
+    @OneToOne(mappedBy = "recommendations", cascade = CascadeType.ALL)
+    private Query query;
 
     public UUID getId() {
         return id;
     }
 
-    public String getText() {
-        return text;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Recommendations that = (Recommendations) o;
-        return Objects.equals(name, that.name) && Objects.equals(id, that.id) && Objects.equals(text, that.text);
+    public String getProductName() {
+        return productName;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, id, text);
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    @Override
-    public String toString() {
-        return "Recommendations{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
-                ", text='" + text + '\'' +
-                '}';
+    public UUID getProductId() {
+        return productId;
     }
+
+    public void setProductId(UUID productId) {
+        this.productId = productId;
+    }
+
+    public String getProductText() {
+        return productText;
+    }
+
+    public void setProductText(String productText) {
+        this.productText = productText;
+    }
+
+    public List<DynamicRules> getRule() {
+        return rule;
+    }
+
+    public void setRule(List<DynamicRules> rule) {
+        this.rule = rule;
+    }
+
+    public Query getQuery() {
+        return query;
+    }
+
+    public void setQuery(Query query) {
+        this.query = query;
+    }
+
 }

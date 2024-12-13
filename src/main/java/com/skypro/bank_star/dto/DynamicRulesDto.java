@@ -1,42 +1,45 @@
 package com.skypro.bank_star.dto;
 
+import com.skypro.bank_star.request.RulesQuery;
+
 import java.util.List;
+import java.util.UUID;
 
 public class DynamicRulesDto {
-    private Long id;
-    private Long userId;
-    private List<String> queries; // Используем строки или другой тип для запросов
+    private UUID id;
+    private RulesQuery query;
+    private List<String> arguments;
+    private boolean negate;
 
-    public DynamicRulesDto(Long id, Long userId, List<String> queries) {
-        this.id = id;
-        this.userId = userId;
-        this.queries = queries;
-    }
-
-    public DynamicRulesDto() {
-    }
-
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public RulesQuery getQuery() {
+        return query;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setQuery(RulesQuery query) {
+        this.query = query;
     }
 
-    public List<String> getQueries() {
-        return queries;
+    public List<String> getArguments() {
+        return arguments;
     }
 
-    public void setQueries(List<String> queries) {
-        this.queries = queries;
+    public void setArguments(List<String> arguments) {
+        this.arguments = arguments;
+    }
+
+    public boolean isNegate() {
+        return negate;
+    }
+
+    public void setNegate(boolean negate) {
+        this.negate = negate;
     }
 }

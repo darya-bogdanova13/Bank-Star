@@ -1,37 +1,19 @@
 package com.skypro.bank_star.service;
 
-import com.skypro.bank_star.model.DynamicRules;
-import com.skypro.bank_star.repository.DynamicRulesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import com.skypro.bank_star.dto.RecommendationsDto;
+import com.skypro.bank_star.model.Recommendations;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.UUID;
 
-@Service
-public class DynamicRulesService {
+public interface DynamicRulesService {
+    Recommendations createDynamicRuleRecommendation(RecommendationsDto recommendationsDto);
 
-    private final DynamicRulesRepository dynamicRulesRepository;
+    Optional<RecommendationsDto> getDynamicRuleRecommendation(UUID id);
 
-    public DynamicRulesService(DynamicRulesRepository dynamicRulesRepository) {
-        this.dynamicRulesRepository = dynamicRulesRepository;
-    }
+    List<RecommendationsDto> getAllDynamicRulesRecommendations();
 
-    public List<DynamicRules> getRulesByUserId(Long userId) {
-        return dynamicRulesRepository.findByUserId(userId);
-    }
-    public void addRule(DynamicRules rule) {
-        dynamicRulesRepository.save(rule);
-    }
-    public void deleteRules(Long id){
-        dynamicRulesRepository.deleteById(id);
-    }
-    public List<DynamicRules> getAllRules() {
-        return dynamicRulesRepository.findAll();
-    }
+    void deleteDynamicRuleRecommendation(UUID id);
 
 }
