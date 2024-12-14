@@ -130,4 +130,21 @@ public class UserDynamicRecommendationsServiceImpl implements UserDynamicRecomme
         return recommendations;
     }
 
+    @Override
+    public String getAllDynamicRulesRecommendationsForTelegramBot(UUID userId) {
+
+        logger.info("Starting executing all dynamic recommendations fot TelegramBot for userId: {}", userId);
+
+        List<RecommendationsProductDto> recommendations = checkUserDynamicRecommendations(userId);
+
+        StringBuilder sb = new StringBuilder();
+
+        for (RecommendationsProductDto recommendation : recommendations) {
+            sb.append("*Название продукта:* ").append(recommendation.getProductName()).append("\n\n");
+            sb.append("*Описание продукта:* \n").append(recommendation.getProductText()).append("\n\n\n");
+        }
+        logger.info("Forwarding all dynamic recommendations in String for TelegramBot for userId: {}", userId);
+        return sb.toString();
+    }
+
 }
