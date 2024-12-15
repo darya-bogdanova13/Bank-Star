@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 import java.util.List;
 import java.util.UUID;
@@ -35,7 +34,7 @@ public class DynamicRules {
     private boolean negate;
 
     @ManyToOne
-    @Column(name = "recommendation_id")
+    @JoinColumn(name = "recommendation_id")
     private Recommendations recommendations;
 
     public UUID getId() {
