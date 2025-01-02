@@ -6,11 +6,11 @@ import io.swagger.v3.oas.annotations.servers.Server;
 
 @OpenAPIDefinition(
         info = @Info(
-                title = "Recommendation Service API",
-                description = "Recommendation Service", version = "0.1.0"
+                title = "Bank Star API",
+                description = "Bank Star", version = "0.1.0"
         ),
         servers = @Server(
-                url = "http://localhost:8080/",
+                url = "http://localhost:8081/",
                 description = "Developer server"
         )
 )

@@ -4,7 +4,7 @@ import com.skypro.bank_star.dto.RecommendationsProductDto;
 import com.skypro.bank_star.dto.UserRecommendationsDto;
 import com.skypro.bank_star.exception.UserNotFoundException;
 import com.skypro.bank_star.product.RecommendationRuleSet;
-import com.skypro.bank_star.repository.StatsRepository;
+import com.skypro.bank_star.repository.FixedRecommendationsRepository;
 import com.skypro.bank_star.service.UserFixedRecommendationsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +21,13 @@ public class UserFixedRecommendationsServiceImpl implements UserFixedRecommendat
     private final Logger logger = LoggerFactory.getLogger(UserFixedRecommendationsServiceImpl.class);
 
     private final RecommendationRuleSet[] recommendationRuleSet;
-    private final StatsRepository statsRepository;
+    private final FixedRecommendationsRepository fixedRecommendationsRepository;
 
     @Autowired
     public UserFixedRecommendationsServiceImpl(RecommendationRuleSet[] recommendationRuleSet,
-                                               StatsRepository statsRepository) {
+                                               FixedRecommendationsRepository fixedRecommendationsRepository) {
         this.recommendationRuleSet = recommendationRuleSet;
-        this.statsRepository = statsRepository;
+        this.fixedRecommendationsRepository = fixedRecommendationsRepository;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class UserFixedRecommendationsServiceImpl implements UserFixedRecommendat
 
         logger.info("Starting checking user in database for userId: {}", userId);
 
-        if (statsRepository.isUserExists(userId)) {
+        if (fixedRecommendationsRepository.isUserExists(userId)) {
 
             logger.info("Starting getting in List<> all recommendations for userId: {}", userId);
             List<RecommendationsProductDto> recommendations = new ArrayList<>();

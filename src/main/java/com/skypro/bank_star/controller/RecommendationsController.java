@@ -4,6 +4,9 @@ import com.skypro.bank_star.dto.RecommendationsProductDto;
 import com.skypro.bank_star.exception.AppError;
 import com.skypro.bank_star.exception.ProductNotFoundException;
 import com.skypro.bank_star.service.RecommendationsService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,7 +20,8 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping(path = "/product")
+@Tag(name = "Контроллер продукта рекомендации", description = "Выполняет действия с продуктом рекомендации")
 public class RecommendationsController {
 
     private final Logger logger = LoggerFactory.getLogger(RecommendationsController.class);
@@ -28,8 +32,9 @@ public class RecommendationsController {
         this.recommendationsService = recommendationsService;
     }
 
-    @GetMapping("/{productId}")
-    public ResponseEntity<Object> getProduct(@PathVariable UUID productId) {
+    @GetMapping(path = "/{productId}")
+    @Operation(summary = "Получение продукта рекомендации", description = "Позволяет получить продукт рекомендации")
+    public ResponseEntity<Object> getProduct(@PathVariable @Parameter(description = "Идентификатор продукта рекомендации") UUID productId) {
 
         logger.info("Received request for getting recommendation product for productId: {}", productId);
 

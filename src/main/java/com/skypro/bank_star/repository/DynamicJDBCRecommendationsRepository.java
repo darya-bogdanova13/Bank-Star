@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +26,10 @@ public class DynamicJDBCRecommendationsRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Caching(cacheable = {
+            @Cacheable(cacheNames = "dynamicRecommendations", key = "#root.methodName + #userId.toString()"),
+            @Cacheable(cacheNames = "fixedRecommendations", key = "#root.methodName + #userId.toString()")
+    })
     public boolean isUserExists(UUID userId) {
         String sql = "SELECT COUNT(*) FROM USERS u WHERE u.ID = ?";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, userId);
@@ -32,6 +38,7 @@ public class DynamicJDBCRecommendationsRepository {
         return count != null && count > 0;
     }
 
+    @Cacheable(cacheNames = "dynamicRecommendations", key = "#root.methodName + #userId.toString() + #arguments.get(0)")
     public boolean isUserOf(UUID userId, List<String> arguments) {
         String sql = "SELECT " +
                 "           CASE " +
@@ -74,6 +81,8 @@ public class DynamicJDBCRecommendationsRepository {
         return Boolean.TRUE.equals(result);
     }
 
+    @Cacheable(cacheNames = "dynamicRecommendations",
+            key = "#root.methodName + #userId.toString() + #arguments.get(0) + #arguments.get(1) + #arguments.get(2) + #arguments.get(3)")
     public boolean isTransactionSumCompare(UUID userId, List<String> arguments) {
         String sql = "SELECT " +
                 "           CASE " +
@@ -96,6 +105,8 @@ public class DynamicJDBCRecommendationsRepository {
         return Boolean.TRUE.equals(result);
     }
 
+    @Cacheable(cacheNames = "dynamicRecommendations",
+            key = "#root.methodName + #userId.toString() + #arguments.get(0) + #arguments.get(1)")
     public boolean isTransactionSumCompareDepositWithdraw(UUID userId, List<String> arguments) {
         String sql = "SELECT " +
                 "           CASE " +

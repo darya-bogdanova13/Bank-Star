@@ -25,6 +25,7 @@ public class RecommendationsDataSourceConfiguration  {
     }
 
     @Bean(name = "recommendationsJdbcTemplate")
+    @Qualifier("recommendationsDataSource")
     public JdbcTemplate recommendationsJdbcTemplate(
             @Qualifier("recommendationsDataSource") DataSource dataSource
     ) {
@@ -32,7 +33,7 @@ public class RecommendationsDataSourceConfiguration  {
     }
 
     @Primary
-    @Bean(name = "defaultDataSource")
+    @Bean(name = "postgresDataSource")
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource defaultDataSource(DataSourceProperties properties) {
         return properties.initializeDataSourceBuilder().build();

@@ -88,7 +88,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                             chatId,
                             message.messageId(),
                             new ReactionTypeEmoji("✍️"));
-
                     Collection<UserDto> userList = telegramBotRepository.getUser(
                             splitMessageText[1].toLowerCase());
 
@@ -114,7 +113,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         userList.forEach(userDto -> {
                             logger.info("Recommend products to username {} was send successfully", userList);
 
-
                             messageSenderService.sendSticker(
                                     chatId,
                                     telegramBotUpdatesMethods.getSTICKER());
@@ -134,10 +132,12 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
             } else {
                 logger.info("Else message to username {} was send successfully", chatId);
+
                 messageSenderService.sendReaction(
                         chatId,
                         message.messageId(),
                         new ReactionTypeEmoji("🤷‍♂️"));
+
                 messageSenderService.sendMessage(
                         chatId,
                         telegramBotUpdatesMethods.sendElseMessage());

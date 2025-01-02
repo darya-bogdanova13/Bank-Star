@@ -29,7 +29,7 @@ public class TelegramBotUpdatesMethods {
         return TelegramBotEmoji.STAR.get() +
                 " Чтобы узнать, какие продукты больше всего тебе подходят,\n" +
                 "отправь команду */recommend* и свой *username* через пробел.\n" +
-                "Например: */recommend luke.skywalker*";
+                "Например: */recommend Max*";
     }
 
     String sendNullMessage() {
@@ -64,7 +64,7 @@ public class TelegramBotUpdatesMethods {
         return "Нужно обязательно указать через *пробел* после" +
                 " */recommend* свой *username*\n\n"
                 + TelegramBotEmoji.WRITING_HAND.get() +
-                " Например:\n*/recommend jabba.hutt*";
+                " Например:\n*/recommend Max_96*";
     }
 
     String sendElseMessage() {

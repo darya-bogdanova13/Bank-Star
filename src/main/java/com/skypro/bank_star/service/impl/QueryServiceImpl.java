@@ -1,9 +1,9 @@
 package com.skypro.bank_star.service.impl;
 
-import com.skypro.bank_star.model.Query;
+import com.skypro.bank_star.model.Stats;
 import com.skypro.bank_star.model.Recommendations;
 import com.skypro.bank_star.repository.DynamicJPARecommendationsRepository;
-import com.skypro.bank_star.service.RecommendationQueryService;
+import com.skypro.bank_star.service.StatsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class QueryServiceImpl implements RecommendationQueryService {
+public class QueryServiceImpl implements StatsService {
 
     private final Logger logger = LoggerFactory.getLogger(QueryServiceImpl.class);
     private final DynamicJPARecommendationsRepository dynamicJPARecommendationsRepository;
@@ -35,14 +35,14 @@ public class QueryServiceImpl implements RecommendationQueryService {
 
         if (foundRecommendations.isPresent()) {
             Recommendations recommendations = foundRecommendations.get();
-            Query query = recommendations.getQuery();
+            Stats stats = recommendations.getStats();
 
-            if (query == null) {
-                query = new Query(1);
-                query.setRecommendations(recommendations);
-                recommendations.setQuery(query);
+            if (stats == null) {
+                stats = new Stats(1);
+                stats.setRecommendations(recommendations);
+                recommendations.setStats(stats);
             } else {
-                query.setCount(query.getCount() + 1);
+                stats.setCount(stats.getCount() + 1);
             }
 
             dynamicJPARecommendationsRepository.save(recommendations);

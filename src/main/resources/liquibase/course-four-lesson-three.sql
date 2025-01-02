@@ -25,3 +25,4 @@ CREATE TABLE stats (
     PRIMARY KEY(id),
     FOREIGN KEY (recommendations_id) REFERENCES recommendations(id)
     )
+

@@ -15,8 +15,4 @@ public enum SumCompare {
         this.sumVal = sumVal;
     }
 
-    public int getSumVal() {
-        return sumVal;
-    }
-
 }

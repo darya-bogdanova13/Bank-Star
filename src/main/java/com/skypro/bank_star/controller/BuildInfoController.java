@@ -1,6 +1,7 @@
 package com.skypro.bank_star.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.info.BuildProperties;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/management")
+@Tag(name = "Контроллер управления сервисом", description = "Выполняет действия с сервисом")
 public class BuildInfoController {
 
     private final Logger logger = LoggerFactory.getLogger(BuildInfoController.class);

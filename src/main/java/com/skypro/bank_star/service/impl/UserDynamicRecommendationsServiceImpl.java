@@ -6,12 +6,13 @@ import com.skypro.bank_star.exception.UserNotFoundException;
 import com.skypro.bank_star.model.DynamicRules;
 import com.skypro.bank_star.repository.DynamicJDBCRecommendationsRepository;
 import com.skypro.bank_star.repository.DynamicJPARecommendationsRepository;
-import com.skypro.bank_star.repository.DynamicRulesRepository;
+import com.skypro.bank_star.repository.RulesRecommendationsRepository;
 import com.skypro.bank_star.repository.RecommendationsRepository;
-import com.skypro.bank_star.service.RecommendationQueryService;
+import com.skypro.bank_star.service.StatsService;
 import com.skypro.bank_star.service.UserDynamicRecommendationsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,30 +20,30 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-
 public class UserDynamicRecommendationsServiceImpl implements UserDynamicRecommendationsService {
 
     private final Logger logger = LoggerFactory.getLogger(UserDynamicRecommendationsServiceImpl.class);
 
     private final DynamicJDBCRecommendationsRepository dynamicJDBCRecommendationsRepository;
     private final DynamicJPARecommendationsRepository dynamicJPARecommendationsRepository;
-    private final  DynamicRulesRepository dynamicRulesRepository;
+    private final RulesRecommendationsRepository rulesRecommendationsRepository;
     private final RecommendationsRepository recommendationsRepository;
-    private final RecommendationQueryService recommendationQueryService;
+    private final StatsService statsService;
 
     public UserDynamicRecommendationsServiceImpl(DynamicJDBCRecommendationsRepository dynamicJDBCRecommendationsRepository,
                                                  DynamicJPARecommendationsRepository dynamicJPARecommendationsRepository,
-                                                 DynamicRulesRepository dynamicRulesRepository,
+                                                 RulesRecommendationsRepository rulesRecommendationsRepository,
                                                  RecommendationsRepository recommendationsRepository,
-                                                 RecommendationQueryService recommendationQueryService) {
+                                                 StatsService statsService) {
         this.dynamicJDBCRecommendationsRepository = dynamicJDBCRecommendationsRepository;
         this.dynamicJPARecommendationsRepository = dynamicJPARecommendationsRepository;
-        this.dynamicRulesRepository = dynamicRulesRepository;
+        this.rulesRecommendationsRepository = rulesRecommendationsRepository;
         this.recommendationsRepository = recommendationsRepository;
-        this.recommendationQueryService = recommendationQueryService;
+        this.statsService = statsService;
     }
 
     @Override
+    @Cacheable(cacheNames = "dynamicRecommendations", key = "#root.methodName + #userId.toString()")
     public UserRecommendationsDto getAllDynamicRecommendations(UUID userId) throws UserNotFoundException {
 
         logger.info("Starting executing all dynamic recommendations for userId: {}", userId);
@@ -54,6 +55,23 @@ public class UserDynamicRecommendationsServiceImpl implements UserDynamicRecomme
         logger.info("Transferring all found recommendations from List<> to UserRecommendationsDTO for userId: {}", userId);
         return new UserRecommendationsDto(userId, recommendations);
 
+    }
+    @Override
+    @Cacheable(cacheNames = "telegramBot", key = "#root.methodName + #userId.toString()")
+    public String getAllDynamicRulesRecommendationsForTelegramBot(UUID userId) {
+
+        logger.info("Starting executing all dynamic recommendations fot TelegramBot for userId: {}", userId);
+
+        List<RecommendationsProductDto> recommendations = checkUserDynamicRecommendations(userId);
+
+        StringBuilder sb = new StringBuilder();
+
+        for (RecommendationsProductDto recommendation : recommendations) {
+            sb.append("*Название продукта:* ").append(recommendation.getProductName()).append("\n\n");
+            sb.append("*Описание продукта:* \n").append(recommendation.getProductText()).append("\n\n\n");
+        }
+        logger.info("Forwarding all dynamic recommendations in String for TelegramBot for userId: {}", userId);
+        return sb.toString();
     }
 
     private void checkIsUserExists(UUID userId) throws UserNotFoundException, NullPointerException {
@@ -84,7 +102,7 @@ public class UserDynamicRecommendationsServiceImpl implements UserDynamicRecomme
             logger.info("Start checking rules of dynamic recommendation: {}", recommendationId);
 
             boolean allCasesMatched = true;
-            List<DynamicRules> checkingRecommendationsRules = dynamicRulesRepository
+            List<DynamicRules> checkingRecommendationsRules = rulesRecommendationsRepository
                     .findByRecommendationsId(recommendationId);
 
             logger.info("Number of rules - {} - for checking of dynamic recommendation: {}", checkingRecommendationsRules.size(), recommendationId);
@@ -110,7 +128,7 @@ public class UserDynamicRecommendationsServiceImpl implements UserDynamicRecomme
 
             if (allCasesMatched) {
 
-                recommendationQueryService.incrementStatsCount(recommendationId);
+                statsService.incrementStatsCount(recommendationId);
 
                 logger.info("Adding result of getting recommendation {} to List<> for userId: {}", recommendationId, userId);
                 List<RecommendationsProductDto> matchedRecommendations = recommendationsRepository.findById(recommendationId)
@@ -128,23 +146,6 @@ public class UserDynamicRecommendationsServiceImpl implements UserDynamicRecomme
             }
         }
         return recommendations;
-    }
-
-    @Override
-    public String getAllDynamicRulesRecommendationsForTelegramBot(UUID userId) {
-
-        logger.info("Starting executing all dynamic recommendations fot TelegramBot for userId: {}", userId);
-
-        List<RecommendationsProductDto> recommendations = checkUserDynamicRecommendations(userId);
-
-        StringBuilder sb = new StringBuilder();
-
-        for (RecommendationsProductDto recommendation : recommendations) {
-            sb.append("*Название продукта:* ").append(recommendation.getProductName()).append("\n\n");
-            sb.append("*Описание продукта:* \n").append(recommendation.getProductText()).append("\n\n\n");
-        }
-        logger.info("Forwarding all dynamic recommendations in String for TelegramBot for userId: {}", userId);
-        return sb.toString();
     }
 
 }

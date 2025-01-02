@@ -1,35 +1,34 @@
 package com.skypro.bank_star.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+
 import java.util.UUID;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Schema(description = "Сущность продукта рекомендации")
 public class RecommendationsProductDto {
+
+    @Schema(description = "Название продукта рекомендации")
     private String productName;
 
+    @Schema(description = "Идентификатор продукта рекомендации")
     private UUID productId;
 
+    @Schema(description = "Описание продукта рекомендации")
     private String productText;
 
-    public String getProductName() {
-        return productName;
+    public String getProduct_name() {
+        return null;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public UUID getProduct_id() {
+        return null;
     }
 
-    public UUID getProductId() {
-        return productId;
-    }
-
-    public void setProductId(UUID productId) {
-        this.productId = productId;
-    }
-
-    public String getProductText() {
-        return productText;
-    }
-
-    public void setProductText(String productText) {
-        this.productText = productText;
+    public String getProduct_text() {
+        return null;
     }
 }
