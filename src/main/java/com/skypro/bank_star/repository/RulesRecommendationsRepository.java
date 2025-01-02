@@ -1,0 +1,13 @@
+package com.skypro.bank_star.repository;
+
+import com.skypro.bank_star.model.DynamicRules;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+import java.util.UUID;
+
+public interface RulesRecommendationsRepository extends JpaRepository<DynamicRules, UUID> {
+
+    List<DynamicRules> findByRecommendationsId(UUID recommendationId);
+
+}
